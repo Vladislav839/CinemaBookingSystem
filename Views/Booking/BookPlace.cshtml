@@ -1,0 +1,135 @@
+﻿@model CinemaBookingSystem.ViewModels.Booking.BookPlaceViewModel;
+
+@section Styles
+{
+    <style>
+        #main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .screen {
+            width: 50%;
+            height: 50px;
+            background-color: aqua;
+            border-radius: 5px;
+            align-self: center;
+            text-align: center;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seats {
+            margin-top: 10px;
+            display: grid;
+            grid-template-rows: repeat(5, 1fr);
+            grid-template-columns: repeat(10, 1fr);
+            grid-gap: 10px;
+        }
+
+        .sold {
+            background-color: darkgoldenrod;
+        }
+
+        .seats > div {
+            height: 50px;
+            width: 50px;
+            font-size: 16px;
+            padding: .5em;
+            background: gold;
+            text-align: center;
+        }
+
+            .seats > div:hover {
+                background-color: darkgoldenrod;
+            }
+
+        .info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 26px;
+        }
+    </style>
+}
+
+<div class="info">
+    <span>Фильм: @ViewBag.filmName </span>
+    <span style="margin-left: 10px;">Начало сеанса: @ViewBag.Sessionstart</span>
+</div>
+<div class="text-center screen">
+    <p>Экран</p>
+</div>
+<div class="seats">
+    @for (int i = 1; i <= ViewBag.Rows; i++)
+    {
+        @for (int j = 1; j <= ViewBag.Cols; j++)
+        {
+            <div data-toggle="modal" data-target="#purchaseModal" data-row="@i" data-col="@j"></div>
+        }
+    }
+</div>
+
+<div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+           
+            <form method="post" asp-controller="Booking" asp-action="BookPlace" asp-route-id="@ViewBag.FilmId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Row" for="row" class="col-form-label">Ряд:</label>
+                        <input readonly asp-for="Row" type="text" class="form-control" id="row">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Place" class="col-form-label">Место:</label>
+                        <input readonly asp-for="Place" type="text" class="form-control" id="col">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Забронировать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('#purchaseModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var row = button.data('row')
+  var col = button.data('col')
+  var modal = $(this)
+  modal.find('#row').val(row)
+  modal.find('#col').val(col)
+        })
+        const paintReserved = function (list) {
+            let allDivs = document.querySelectorAll('div[data-row]')
+            for (let item of allDivs) {
+                for (let seat of list) {
+                    if (item.getAttribute('data-row') == seat.row) {
+                        if (item.getAttribute('data-col') == seat.place) {
+                            item.style.backgroundColor = '#f21322';
+                            item.removeAttribute('data-toggle');
+                        }
+                    }
+                }
+            }
+        }
+
+        let seats = @Html.Raw(Json.Serialize(ViewBag.reservedSeats));
+        paintReserved(seats);
+
+    </script>
+}

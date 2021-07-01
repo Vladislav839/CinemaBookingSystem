@@ -1,0 +1,52 @@
+﻿@model CinemaBookingSystem.Data.Models.User;
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <ul class="list-group ml-2" style="width: 300px;">
+                @if (Model.Role.Name == "admin")
+                {
+                    <li class="list-group-item">
+                        <a asp-controller="Admin" asp-action="CreateMovieShows">Create movie shows</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a asp-controller="Admin" asp-action="UpdateMovieShows">Update movie shows</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a asp-controller="Admin" asp-action="SeeAllReservations">Reservations</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="list-group-item">
+                        <a asp-controller="User" asp-action="Reservations">Your reservations</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-3 d-flex flex-column">
+            <img class="rounded" src="~/img/avatar_default.png" alt="default" style="border-radius:50%; width:200px; height:200px;" />
+        </div>
+
+        <div class="col-5">
+            <div>
+                <span>
+                    <span>Username: </span>
+                    <span class="text-capitalize" style="font-size: 26px;">@Model.UserName</span>
+                </span>
+            </div>
+            <div>
+                <span>
+                    <span>Email: </span>
+                    <span class="text-capitalize" style="font-size: 26px;">@Model.Email</span>
+                </span>
+            </div>
+            <div>
+                <span>
+                    <span>Role: </span>
+                    <span class="text-capitalize" style="font-size: 26px;">@Model.Role.Name</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

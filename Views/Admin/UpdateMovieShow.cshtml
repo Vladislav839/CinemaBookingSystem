@@ -1,0 +1,66 @@
+﻿@model CinemaBookingSystem.ViewModels.Admin.MovieShowViewModel;
+
+<div class="container">
+    @if (ViewBag.Success == "true")
+    {
+        <div class="row justify-content-center" id="alert">
+            <div class="col-md-8">
+                <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                    <strong>Успешно!</strong> Данные обновлены.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="post" asp-controller="Admin" asp-action="UpdateMovieShow" asp-route-id="@ViewBag.Id" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="MovieName">Название фильма</label>
+                    <input type="text" value="@Model.MovieName" class="form-control" asp-for="MovieName" placeholder="Название фильма">
+                    <span asp-validation-for="MovieName"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="Year">Год</label>
+                        <input type="text" value="@Model.Year" asp-for="Year" class="form-control" placeholder="Год">
+                        <span asp-validation-for="Year"></span>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label asp-for="Country" for="exampleInputPassword1">Страна</label>
+                        <input value="@Model.Country" asp-for="Country" type="text" class="form-control" placeholder="Страна">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Genre">Жанр</label>
+                        <input value="@Model.Genre" asp-for="Genre" type="text" class="form-control" placeholder="Жанр">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Poster">Постер</label>
+                    <input accept=".jpg, .jpeg, .png" type="file" asp-for="Poster" class="form-control-file" id="poster-input">
+                    <small>Текущий постер</small>
+                    <div style="height: 100px; width: 60px;" class="mt-2">
+                        <img style="width:100%; height:auto;" id="poster" src="@ViewBag.PosterPath" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DescriptionLink" for="exampleInputPassword1">Ссылка на страницу с описанием фильма</label>
+                    <input asp-for="DescriptionLink" type="text" class="form-control" placeholder="Ссылка">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="SessionStart">Начало сеанса</label>
+                        <input value="@Model.SessionStart.ToString("yyyy-MM-ddThh:mm")" type="datetime-local" asp-for="SessionStart" class="form-control" placeholder="Начало сеанса">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Price">Цена</label>
+                        <input value="@Model.Price" asp-for="Price" type="text" class="form-control" placeholder="Цена">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

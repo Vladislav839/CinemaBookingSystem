@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CinemaBookingSystem.Data.Models.MovieShow>;
+
+<ul class="list-unstyled">
+    @foreach (var item in Model)
+    {
+    <li class="media">
+        <div class="col-md-3">
+            <img class="align-self-start mr-3" style="width: 100%; height: auto;" src="@item.PosterPath" alt="Generic placeholder image">
+        </div>
+        <div class="media-body row">
+            <div class="col-md-3 ml-3">
+                <h5 class="mt-0">@item.MovieName, @item.Year</h5>
+                <small>@item.Country</small>
+                <small style="display: block;">@item.Genre</small>
+            </div>
+            <div class="col-md-3">
+                <h3>@item.Price BYN</h3>
+                <p>Время начала сеанса @item.SessionStart</p>
+            </div>
+            <div class="col-md-3">
+                <a asp-controller="Booking" asp-action="BookPlace" asp-route-id="@item.Id" type="button" class="btn btn-success">Забронировать место в зале</a>
+                <a type="button" href="@item.DescriptionLink" class="btn btn-primary">Посмотреть описание</a>
+            </div>
+        </div>
+    </li>
+    }
+</ul>

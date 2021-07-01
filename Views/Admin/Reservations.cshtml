@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CinemaBookingSystem.Data.Models.MovieShow>
+
+@section Styles
+{
+
+}
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+    <div class="row d-flex flex-row align-items-center">
+        <div class="col-md-2">
+            <img style="width:100%; height:auto" src="@item.PosterPath" />
+        </div>
+        <div class="col-md-4 d-flex flex-column align-items-start">
+            <p style="font-size: 26px;">@item.MovieName<br /> <small>@item.Year</small></p>
+
+        </div>
+        <div class="col-md-6">
+            <p>@item.SessionStart</p>
+            <a asp-controller="Admin" asp-action="MovieShowReservations" asp-route-id="@item.Id" class="btn btn-success">Брони</a>
+        </div>
+    </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+       
+    </script>
+}

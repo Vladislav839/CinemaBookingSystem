@@ -1,0 +1,28 @@
+﻿@model IEnumerable<CinemaBookingSystem.ViewModels.Admin.MovieShowReservationViewModel>
+
+@section Styles
+{
+
+}
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">MovieName</th>
+            <th scope="col">SessionStart</th>
+            <th scope="col">Row</th>
+            <th scope="col">Place</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MovieName</td>
+                <td>@item.SessionStart</td>
+                <td>@item.Row</td>
+                <td>@item.Seat</td>
+            </tr>
+        }
+    </tbody>
+</table>

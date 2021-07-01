@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать!!</h1>
+    <p>Это система бронирования мест в кинотеатре</p>
+    <p>Выберете опцию</p>
+    <div>
+        <span>
+            <a asp-controller="Home" asp-action="MovieShows" class="btn btn-lg btn-primary">Посмотреть доступные сеансы</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-lg btn-primary" asp-controller="Account" asp-action="Profile">Профиль</a>
+            }
+            else
+            {
+                <a class="btn btn-lg btn-primary" asp-controller="Account" asp-action="Login">Войти в учетную запись</a>
+            }
+        </span>
+    </div>
+</div>

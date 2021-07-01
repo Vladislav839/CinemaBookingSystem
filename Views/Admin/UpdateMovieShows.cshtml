@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CinemaBookingSystem.Data.Models.MovieShow>;
+
+<div class="container">
+    <div class="row justify-content-center">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Год</th>
+                    <th scope="col">Страна</th>
+                    <th scope="col">Жанр</th>
+                    <th scope="col">Постер</th>
+                    <th scope="col">Ссылка на описание</th>
+                    <th scope="col">Начало сеанса</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.MovieName</td>
+                        <td>@item.Year</td>
+                        <td>@item.Country</td>
+                        <td>@item.Genre</td>
+                        <td><img style="width:100%; height:auto" src="@item.PosterPath" /></td>
+                        <td>@item.DescriptionLink</td>
+                        <td>@item.SessionStart</td>
+                        <td>@item.Price BYN</td>
+                        <td><a asp-controller="Admin" asp-action="UpdateMovieShow" asp-route-id="@item.Id">Изменить</a><br /><a href="#" onclick="deleteElement(this)" data-id="@item.Id" id="delete">Удалить</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function deleteElement(e) {
+            let id = e.getAttribute('data-id');
+            console.log(id);
+            fetch("/Admin/DeleteMovieShow?id=" + id, {
+                method: "POST",
+            })
+                .then(res => {
+                    if (!response.ok) throw Error(response.statusText);
+                    return response.json();
+                })
+                .then(data => console.log(data))
+                .catch(error => console.log(error));
+            e.parentElement.parentElement.remove();
+
+        }
+    </script>
+}
